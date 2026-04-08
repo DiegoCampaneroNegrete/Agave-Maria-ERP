@@ -13,6 +13,16 @@ const store: {
 
 export const mockDB: DB = {
   run: async (query: string, params: any[] = []) => {
+    if (query.includes('JOIN products')) {
+      store.order_items.map(item => {
+        const product = store.products.find(p => p.id === item.product_id);
+        return {
+          ...item,
+          name: product?.name || 'Producto',
+        };
+      });
+    }
+
     // PRODUCTS
     if (query.includes('INSERT INTO products')) {
       store.products.push({

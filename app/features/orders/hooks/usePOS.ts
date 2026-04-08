@@ -23,6 +23,7 @@ export const usePOS = () => {
         ...prev,
         {
           id: uuid(),
+          order_id: '', // Verificar esto
           product_id: product.id,
           name: product.name,
           price: product.price,

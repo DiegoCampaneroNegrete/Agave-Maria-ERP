@@ -24,4 +24,9 @@ export const menu = [
     href: '/users',
     icon: '🔐',
   },
+  {
+    label: 'Historial de Ordenes',
+    href: '/orders/history',
+    icon: '📋',
+  },
 ];
