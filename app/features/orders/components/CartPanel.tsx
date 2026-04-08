@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// /features/orders/components/CartPanel.tsx
 
 'use client';
 

@@ -14,3 +14,10 @@ export interface Order {
   status: 'OPEN' | 'PAID';
   created_at: string;
 }
+
+export interface CartItem {
+  id: string;
+  name: string;
+  price: number;
+  qty: number;
+}
