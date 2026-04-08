@@ -20,6 +20,10 @@ export const OrderDetail = ({ order, items }: Props) => {
 
   const grouped = groupItems(items);
 
+  const groupedSorted= grouped.sort((a, b) => b.quantity - a.quantity);
+
+  const totalItems = grouped.reduce((sum, i) => sum + i.quantity, 0);
+
   return (
     <Card>
       <div className="space-y-3">
@@ -29,7 +33,7 @@ export const OrderDetail = ({ order, items }: Props) => {
         </div>
 
         {/* 🔥 ITEMS AGRUPADOS */}
-        {grouped.map(i => (
+        {groupedSorted.map(i => (
           <div key={i.product_id} className="flex justify-between">
             
             <div>
@@ -42,8 +46,15 @@ export const OrderDetail = ({ order, items }: Props) => {
             <div className="font-semibold">
               ${i.subtotal}
             </div>
+            <div className="border-t border-dashed border-app-border my-2" />
           </div>
         ))}
+
+        {/* TOTAL Items */}
+        <div className="border-t border-app-border pt-2 font-bold text-lg">
+          Total Items: ${totalItems}
+        </div>
+
 
         {/* TOTAL */}
         <div className="border-t border-app-border pt-2 font-bold text-lg">
