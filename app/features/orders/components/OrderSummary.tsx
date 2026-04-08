@@ -1,5 +1,3 @@
-// /features/orders/components/OrderSummary.tsx
-
 'use client';
 
 export const OrderSummary = ({ total, onCheckout }: { total: number; onCheckout: () => void }) => {

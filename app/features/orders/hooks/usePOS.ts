@@ -1,4 +1,3 @@
-// /features/orders/hooks/usePOS.ts
 
 import { useAtom } from 'jotai';
 import { cartAtom } from '../store';

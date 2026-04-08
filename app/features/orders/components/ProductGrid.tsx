@@ -1,19 +1,30 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// /features/orders/components/ProductGrid.tsx
-
 'use client';
 
-export const ProductGrid = ({ products, onAdd }: { products: any[]; onAdd: (product: any) => void }) => {
+import { Product } from '@/features/products/types';
+
+interface Props {
+  products: Product[];
+  onAdd: (p: Product) => void;
+}
+
+export const ProductGrid = ({ products, onAdd }: Props) => {
   return (
-    <div className="grid grid-cols-3 gap-2">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
       {products.map(p => (
         <button
           key={p.id}
           onClick={() => onAdd(p)}
-          className="p-4 bg-zinc-800 text-white rounded-xl"
+          className="
+            bg-app-card
+            hover:bg-app-hover
+            p-4
+            rounded-xl
+            text-left
+            active:scale-95
+          "
         >
-          <div className="font-bold">{p.name}</div>
-          <div>${p.price}</div>
+          <div className="font-semibold">{p.name}</div>
+          <div className="text-app-muted">${p.price}</div>
         </button>
       ))}
     </div>

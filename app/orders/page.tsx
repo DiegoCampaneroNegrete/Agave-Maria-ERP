@@ -1,63 +1,61 @@
-
 'use client';
 
-import { useState } from 'react';
-
-const productsMock = [
-  { id: '1', name: 'Cerveza', price: 50 },
-  { id: '2', name: 'Tequila', price: 80 },
-];
+import { useProducts } from '@/features/products/hooks/useProducts';
+import { useCart } from '@/features/orders/hooks/useCart';
+import { ProductGrid } from '@/features/orders/components/ProductGrid';
+import { Cart } from '@/features/orders/components/Cart';
+import { CheckoutBar } from '@/features/orders/components/CheckoutBar';
+import { getDB } from '@/lib/db';
+import { v4 as uuid } from 'uuid';
 
 export default function POSPage() {
-  const [cart, setCart] = useState<Array<{ id: string; name: string; price: number; qty: number }>>([]);
+  const { products } = useProducts();
+  const cart = useCart();
 
-  const add = (p: { id: string; name: string; price: number }) => {
-    setCart(prev => {
-      const existing = prev.find(i => i.id === p.id);
+  const checkout = async () => {
+    const db = await getDB();
+    const orderId = uuid();
+    const now = new Date().toISOString();
 
-      if (existing) {
-        return prev.map(i =>
-          i.id === p.id
-            ? { ...i, qty: i.qty + 1 }
-            : i
-        );
-      }
+    await db.run(
+      `INSERT INTO orders (id, total, status, created_at, updated_at, synced)
+       VALUES (?, ?, 'PAID', ?, ?, 0)`,
+      [orderId, cart.total, now, now]
+    );
 
-      return [...prev, { ...p, qty: 1 }];
-    });
+    for (const item of cart.cart) {
+      await db.run(
+        `INSERT INTO order_items (id, order_id, product_id, quantity, price)
+         VALUES (?, ?, ?, ?, ?)`,
+        [uuid(), orderId, item.id, item.qty, item.price]
+      );
+    }
+
+    cart.clear();
+    alert('✅ Orden completada');
   };
 
-  const total = cart.reduce(
-    (sum, i) => sum + i.price * i.qty,
-    0
-  );
-
   return (
-    <div className="grid md:grid-cols-2 gap-4">
+    <div className="grid md:grid-cols-[2fr_1fr] gap-4">
+      
       {/* Productos */}
-      <div className="grid grid-cols-2 gap-2">
-        {productsMock.map(p => (
-          <button
-            key={p.id}
-            onClick={() => add(p)}
-            className="p-4 bg-zinc-800 text-white rounded-xl"
-          >
-            {p.name} - ${p.price}
-          </button>
-        ))}
-      </div>
+      <ProductGrid
+        products={products}
+        onAdd={cart.add}
+      />
 
       {/* Carrito */}
       <div>
-        {cart.map(item => (
-          <div key={item.id}>
-            {item.name} x{item.qty}
-          </div>
-        ))}
+        <Cart
+          items={cart.cart}
+          onIncrease={cart.increase}
+          onDecrease={cart.decrease}
+        />
 
-        <div className="mt-4 font-bold">
-          Total: ${total}
-        </div>
+        <CheckoutBar
+          total={cart.total}
+          onCheckout={checkout}
+        />
       </div>
     </div>
   );
