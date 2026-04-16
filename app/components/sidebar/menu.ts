@@ -10,6 +10,11 @@ export const menu = [
     icon: '🍺',
   },
   {
+    label: 'Dashboard',
+    href: '/dashboard',
+    icon: '📊',
+  },
+  {
     label: 'Clientes',
     href: '/clients',
     icon: '👤',

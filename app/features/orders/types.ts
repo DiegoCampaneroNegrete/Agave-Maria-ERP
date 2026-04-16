@@ -1,25 +1,19 @@
 
-// export interface OrderItem {
-//   id: string;
-//   product_id: string;
-//   name: string;
-//   price: number;
-//   quantity: number;
-// }
+export type PaymentMethod = 'cash' | 'card';
 
+export interface Order {
+  id: string;
+  total: number;
+  status: string;
+  payment_method: PaymentMethod;
+  created_at: string;
+}
 
 export interface CartItem {
   id: string;
   name: string;
   price: number;
   qty: number;
-}
-
-export interface Order {
-  id: string;
-  total: number;
-  status: string;
-  created_at: string;
 }
 
 export interface OrderItem {
