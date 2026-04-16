@@ -1,0 +1,115 @@
+> agave-pos@0.1.0 test
+> vitest --run
+
+The CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.
+
+ RUN  v1.6.1 /Users/diegocampanero/Documents/GitHub/Agave-Maria-ERP
+
+ ❯ app/features/payments/__tests__/validators.test.ts (34)
+   ❯ Payment Validators (34)
+     ✓ validateAmount (5)
+     ✓ validateMethod (4)
+     ✓ validateMetadata (4)
+     ❯ validatePaymentComplete (6)
+       ✓ passes when exact total
+       × allows 1 cent rounding tolerance (overpay)
+       × allows 1 cent rounding tolerance (underpay)
+       ✓ fails when underpaid > 1 cent
+       ✓ fails when overpaid > 1 cent
+       ✓ handles multiple payments
+     ✓ validateNoDuplicates (3)
+     ✓ validatePaymentCount (2)
+     ✓ validateNewPayment (6)
+     ✓ Edge cases (4)
+ ❯ app/features/payments/__tests__/usePaymentFlow.test.ts (20)
+   ❯ usePaymentFlow (20)
+     ✓ initializes with empty payments
+     ✓ adds payment successfully
+     ✓ rejects invalid payment
+     ✓ adds multiple payments
+     ✓ removes payment
+     ✓ updates payment amount
+     ✓ clears all payments
+     ✓ detects payment complete
+     × allows 1 cent rounding tolerance (overpay)
+     × allows 1 cent rounding tolerance (underpay)
+     ✓ rejects underpayment
+     ✓ confirms complete payment
+     ✓ handles voucher with metadata
+     ✓ rejects voucher without metadata
+     ✓ prevents duplicate methods over limit
+     ✓ gets payment breakdown
+     ✓ sets active method
+     ✓ sets input amount
+     ✓ rounds amounts to 2 decimals
+     ✓ clears UI state after successful add
+ ✓ app/features/payments/__tests__/integration.test.ts (19)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  app/features/payments/__tests__/usePaymentFlow.test.ts > usePaymentFlow > allows 1 cent rounding tolerance (overpay)
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ app/features/payments/__tests__/usePaymentFlow.test.ts:136:46
+    134|     });
+    135| 
+    136|     expect(result.current.isPaymentComplete).toBe(true);
+       |                                              ^
+    137|   });
+    138| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  app/features/payments/__tests__/usePaymentFlow.test.ts > usePaymentFlow > allows 1 cent rounding tolerance (underpay)
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ app/features/payments/__tests__/usePaymentFlow.test.ts:146:46
+    144|     });
+    145| 
+    146|     expect(result.current.isPaymentComplete).toBe(true);
+       |                                              ^
+    147|   });
+    148| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  app/features/payments/__tests__/validators.test.ts > Payment Validators > validatePaymentComplete > allows 1 cent rounding tolerance (overpay)
+AssertionError: expected { field: 'total', …(1) } to be null
+ ❯ app/features/payments/__tests__/validators.test.ts:105:21
+    103|     it('allows 1 cent rounding tolerance (overpay)', () => {
+    104|       const error = validatePaymentComplete([mockPayment(100.01)], 100);
+    105|       expect(error).toBeNull();
+       |                     ^
+    106|     });
+    107| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  app/features/payments/__tests__/validators.test.ts > Payment Validators > validatePaymentComplete > allows 1 cent rounding tolerance (underpay)
+AssertionError: expected { field: 'total', …(1) } to be null
+ ❯ app/features/payments/__tests__/validators.test.ts:110:21
+    108|     it('allows 1 cent rounding tolerance (underpay)', () => {
+    109|       const error = validatePaymentComplete([mockPayment(99.99)], 100);
+    110|       expect(error).toBeNull();
+       |                     ^
+    111|     });
+    112| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+ Test Files  2 failed | 1 passed (3)
+      Tests  4 failed | 69 passed (73)
+   Start at  21:05:39
+   Duration  967ms (transform 122ms, setup 514ms, collect 171ms, tests 79ms, environment 1.01s, prepare 202ms)
