@@ -9,12 +9,14 @@ interface CardProps {
   children: ReactNode;
   className?: string;
   padding?: Padding;
+  onClick?: () => void;
 }
 
 export const Card = ({
   children,
   className,
   padding = 'md',
+  onClick,
 }: CardProps) => {
   const paddings: Record<Padding, string> = {
     sm: 'p-3',

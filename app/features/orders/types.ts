@@ -1,17 +1,11 @@
-// /features/orders/types.ts
 
-export interface OrderItem {
-  id: string;
-  product_id: string;
-  name: string;
-  price: number;
-  quantity: number;
-}
+export type PaymentMethod = 'cash' | 'card';
 
 export interface Order {
   id: string;
   total: number;
-  status: 'OPEN' | 'PAID';
+  status: string;
+  payment_method: PaymentMethod;
   created_at: string;
 }
 
@@ -20,4 +14,21 @@ export interface CartItem {
   name: string;
   price: number;
   qty: number;
+}
+
+export interface OrderItem {
+  id: string;
+  order_id: string;
+  product_id: string;
+  quantity: number;
+  price: number;
+  name: string;
+}
+
+export interface GroupedOrderItem {
+  product_id: string;
+  name: string;
+  quantity: number;
+  price: number;
+  subtotal: number;
 }

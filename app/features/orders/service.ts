@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// /features/orders/service.ts
-
 import { getDB } from '@/lib/db';
+import { Order, OrderItem } from './types';
 
 export const createOrderWithItems = async (orderId: string, items: any[]) => {
   const db = await getDB();
@@ -40,8 +39,33 @@ export const createOrder = async (order: any) => {
   );
 };
 
-export const getOrders = async () => {
+export const getOrders = async (): Promise<Order[]> => {
   const db = await getDB();
 
-  return await db.query(`SELECT * FROM orders`);
+  return await db.query(`
+    SELECT * FROM orders
+    ORDER BY created_at DESC
+  `);
+};
+
+export const getOrderItems = async (
+  orderId: string
+): Promise<OrderItem[]> => {
+  const db = await getDB();
+
+  return await db.query(
+    `
+    SELECT 
+      oi.id,
+      oi.order_id,
+      oi.product_id,
+      oi.quantity,
+      oi.price,
+      p.name
+    FROM order_items oi
+    JOIN products p ON p.id = oi.product_id
+    WHERE oi.order_id = ?
+    `,
+    [orderId]
+  );
 };

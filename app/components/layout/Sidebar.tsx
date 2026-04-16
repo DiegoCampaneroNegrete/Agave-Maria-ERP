@@ -3,13 +3,9 @@
 import { menu } from "../sidebar/menu";
 import { SidebarItem } from "../sidebar/SidebarItem";
 
-// import { menu } from './menu';
-// import { SidebarItem } from './SidebarItem';
-
 export const Sidebar = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
   return (
     <>
-      {/* Overlay */}
       {open && (
         <div
           className="fixed inset-0 bg-black/50 z-40 md:hidden"
@@ -47,7 +43,7 @@ export const Sidebar = ({ open, onClose }: { open: boolean; onClose: () => void 
         {/* Menu */}
         <nav className="flex flex-col gap-2">
           {menu.map(item => (
-            <SidebarItem key={item.href} item={item} />
+            <SidebarItem key={item.href} item={item} onClose={onClose} />
           ))}
         </nav>
       </aside>

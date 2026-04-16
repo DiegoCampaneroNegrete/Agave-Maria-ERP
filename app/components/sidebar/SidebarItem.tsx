@@ -4,13 +4,14 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-export const SidebarItem = ({ item }: { item: any }) => {
+export const SidebarItem = ({ item, onClose }: { item: any; onClose: () => void }) => {
   const pathname = usePathname();
 
   const isActive = pathname === item.href;
 
   return (
     <Link
+      onClick={() => onClose()}
       href={item.href}
       className={`
         flex items-center gap-3 p-3 rounded-xl transition

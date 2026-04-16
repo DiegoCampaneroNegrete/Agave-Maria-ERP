@@ -10,6 +10,11 @@ export const menu = [
     icon: '🍺',
   },
   {
+    label: 'Dashboard',
+    href: '/dashboard',
+    icon: '📊',
+  },
+  {
     label: 'Clientes',
     href: '/clients',
     icon: '👤',
@@ -23,5 +28,10 @@ export const menu = [
     label: 'Usuarios',
     href: '/users',
     icon: '🔐',
+  },
+  {
+    label: 'Historial de Ordenes',
+    href: '/orders/history',
+    icon: '📋',
   },
 ];

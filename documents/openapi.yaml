@@ -1,0 +1,309 @@
+openapi: 3.0.3
+info:
+title: Agave Maria POS API
+version: 1.0.0
+description: REST API for Agave Maria POS (offline-first ready)
+servers:
+
+* url: /api
+  paths:
+  /products:
+  get:
+  summary: List products
+  responses:
+  '200':
+  description: OK
+  content:
+  application/json:
+  schema:
+  type: array
+  items:
+  $ref: '#/components/schemas/Product'
+  post:
+  summary: Create product
+  requestBody:
+  required: true
+  content:
+  application/json:
+  schema:
+  $ref: '#/components/schemas/ProductInput'
+  responses:
+  '201':
+  description: Created
+
+/orders:
+get:
+summary: List orders
+parameters:
+- in: query
+name: date
+schema:
+type: string
+format: date
+responses:
+'200':
+description: OK
+content:
+application/json:
+schema:
+type: array
+items:
+$ref: '#/components/schemas/Order'
+post:
+summary: Create order
+requestBody:
+required: true
+content:
+application/json:
+schema:
+$ref: '#/components/schemas/CreateOrder'
+responses:
+'201':
+description: Created
+
+/orders/{id}:
+get:
+summary: Get order detail
+parameters:
+- in: path
+name: id
+required: true
+schema:
+type: string
+responses:
+'200':
+description: OK
+content:
+application/json:
+schema:
+$ref: '#/components/schemas/OrderDetail'
+
+/dashboard/summary:
+get:
+summary: Get dashboard summary
+responses:
+'200':
+description: OK
+content:
+application/json:
+schema:
+$ref: '#/components/schemas/DashboardSummary'
+
+/dashboard/top-products:
+get:
+summary: Get top products
+responses:
+'200':
+description: OK
+content:
+application/json:
+schema:
+type: array
+items:
+$ref: '#/components/schemas/TopProduct'
+
+/dashboard/sales-by-method:
+get:
+summary: Get sales by payment method
+responses:
+'200':
+description: OK
+content:
+application/json:
+schema:
+type: array
+items:
+$ref: '#/components/schemas/SalesByMethod'
+
+/cash/summary:
+get:
+summary: Get cash summary
+responses:
+'200':
+description: OK
+content:
+application/json:
+schema:
+$ref: '#/components/schemas/CashSummary'
+
+/cash/closing:
+post:
+summary: Perform cash closing
+requestBody:
+required: true
+content:
+application/json:
+schema:
+type: object
+properties:
+counted:
+type: number
+responses:
+'200':
+description: OK
+content:
+application/json:
+schema:
+$ref: '#/components/schemas/CashClosingResponse'
+
+/sync:
+post:
+summary: Sync data
+requestBody:
+required: true
+content:
+application/json:
+schema:
+$ref: '#/components/schemas/SyncPayload'
+responses:
+'200':
+description: OK
+
+components:
+schemas:
+Product:
+type: object
+properties:
+id:
+type: string
+name:
+type: string
+price:
+type: number
+created_at:
+type: string
+
+```
+ProductInput:
+  type: object
+  required: [name, price]
+  properties:
+    name:
+      type: string
+    price:
+      type: number
+
+Order:
+  type: object
+  properties:
+    id:
+      type: string
+    total:
+      type: number
+    payment_method:
+      type: string
+      enum: [cash, card]
+    created_at:
+      type: string
+
+CreateOrder:
+  type: object
+  required: [total, payment_method, items]
+  properties:
+    total:
+      type: number
+    payment_method:
+      type: string
+      enum: [cash, card]
+    items:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrderItemInput'
+
+OrderItemInput:
+  type: object
+  properties:
+    product_id:
+      type: string
+    quantity:
+      type: number
+    price:
+      type: number
+
+OrderDetail:
+  type: object
+  properties:
+    id:
+      type: string
+    total:
+      type: number
+    items:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrderItemDetail'
+
+OrderItemDetail:
+  type: object
+  properties:
+    name:
+      type: string
+    quantity:
+      type: number
+    price:
+      type: number
+
+DashboardSummary:
+  type: object
+  properties:
+    totalSales:
+      type: number
+    totalOrders:
+      type: number
+    avgTicket:
+      type: number
+
+TopProduct:
+  type: object
+  properties:
+    name:
+      type: string
+    quantity:
+      type: number
+    total:
+      type: number
+
+SalesByMethod:
+  type: object
+  properties:
+    payment_method:
+      type: string
+      enum: [cash, card]
+    total:
+      type: number
+
+CashSummary:
+  type: object
+  properties:
+    totalSales:
+      type: number
+    cashSales:
+      type: number
+    cardSales:
+      type: number
+
+CashClosingResponse:
+  type: object
+  properties:
+    expected:
+      type: number
+    counted:
+      type: number
+    difference:
+      type: number
+
+SyncPayload:
+  type: object
+  properties:
+    products:
+      type: array
+      items:
+        $ref: '#/components/schemas/Product'
+    orders:
+      type: array
+      items:
+        $ref: '#/components/schemas/Order'
+    cash_closings:
+      type: array
+      items:
+        $ref: '#/components/schemas/CashClosingResponse'
+```

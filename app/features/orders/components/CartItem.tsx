@@ -1,7 +1,7 @@
 'use client';
 
-import { CartItem as Item } from '../hooks/useCart';
 import { Button } from '@/components/ui/Button';
+import { CartItem as Item } from '../types';
 
 interface Props {
   item: Item;
