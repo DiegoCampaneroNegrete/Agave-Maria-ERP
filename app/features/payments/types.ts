@@ -43,3 +43,29 @@ export interface PaymentHistoryItem {
   total: number;
   lastUsed: string;
 }
+
+// Checkout flow types
+export type CheckoutStage = 'summary' | 'method' | 'input' | 'confirm' | 'receipt';
+
+export interface CashPaymentInput {
+  amount: number;
+  change: number;
+}
+
+export interface CardPaymentInput {
+  amount: number;
+}
+
+export interface MixedPaymentInput {
+  cash: number;
+  card: number;
+}
+
+export interface CheckoutState {
+  stage: CheckoutStage;
+  paymentMethod: PaymentMethod | null;
+  cashReceived: number;
+  cardAmount: number;
+  change: number;
+  error: string | null;
+}
