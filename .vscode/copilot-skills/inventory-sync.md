@@ -1,0 +1,1 @@
+Reduce stock automatically after sale
