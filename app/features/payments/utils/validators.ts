@@ -15,6 +15,7 @@ export const validateAmount = (
   remaining: number
 ): ValidationError | null => {
   const config = PAYMENT_METHODS_CONFIG[method];
+  const roundingTolerance = 0.01; // Allow 1 cent rounding
 
   if (!config) {
     return { field: 'method', message: 'Método de pago no válido' };
@@ -38,7 +39,8 @@ export const validateAmount = (
     };
   }
 
-  if (amount > remaining) {
+  // Allow overpayment up to 1 cent (rounding tolerance)
+  if (amount > remaining + roundingTolerance) {
     return {
       field: 'amount',
       message: `Monto no puede exceder el saldo: $${remaining.toFixed(2)}`,
