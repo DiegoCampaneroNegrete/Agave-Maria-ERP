@@ -14,7 +14,7 @@ export const TopProducts = ({ products }: Props) => {
 
       <div className="space-y-2">
         {products.map(p => (
-          <div key={p.product_id} className="flex justify-between">
+          <div key={p.name +"-" + p.product_id + "-" + p.quantity} className="flex justify-between">
             <span>{p.name}</span>
             <span className="text-app-muted">
               {p.quantity} vendidos

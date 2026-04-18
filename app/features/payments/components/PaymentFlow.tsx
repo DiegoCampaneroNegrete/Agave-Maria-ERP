@@ -16,9 +16,10 @@ interface PaymentFlowProps {
   orderTotal: number;
   onConfirm: () => Promise<void>;
   onCancel: () => void;
+  customerId?: string;
 }
 
-export const PaymentFlow = ({ orderTotal, onConfirm, onCancel }: PaymentFlowProps) => {
+export const PaymentFlow = ({ orderTotal, onConfirm, onCancel, customerId }: PaymentFlowProps) => {
   const payment = usePaymentFlow(orderTotal);
   const { getMethodConfig } = usePaymentMethods();
 
@@ -117,7 +118,7 @@ export const PaymentFlow = ({ orderTotal, onConfirm, onCancel }: PaymentFlowProp
 
       {/* Action buttons */}
       <div className="flex gap-3">
-        <Button variant="secondary" onClick={onCancel} className="flex-1">
+        <Button variant="secondary" onClick={onCancel} className="flex-1 text-white">
           Cancelar
         </Button>
         <Button

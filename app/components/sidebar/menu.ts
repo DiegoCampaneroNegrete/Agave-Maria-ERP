@@ -34,4 +34,9 @@ export const menu = [
     href: '/orders/history',
     icon: '📋',
   },
+  {
+    label: 'Checkout',
+    href: '/checkout',
+    icon: '�',
+  },
 ];

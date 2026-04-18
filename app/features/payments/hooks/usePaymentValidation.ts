@@ -9,8 +9,9 @@ import {
   validatePaymentComplete,
   validateNoDuplicates,
   validatePaymentCount,
+  ValidationError,
 } from '../utils/validators';
-import { Payment, PaymentMethod, PaymentMetadata, ValidationError } from '../types';
+import { Payment, PaymentMethod, PaymentMetadata,  } from '../types';
 
 /**
  * Hook for payment validation logic

@@ -1,5 +1,5 @@
 import { atom } from 'jotai';
-import { Payment, PaymentBreakdown, PaymentHistoryItem, PaymentStatus } from './types';
+import { Payment, PaymentBreakdown, PaymentHistoryItem, PaymentStatus, Customer, CustomerBalance, OrderPaymentState } from './types';
 
 // Current payment session
 export const paymentsAtom = atom<Payment[]>([]);
@@ -51,3 +51,34 @@ export const paymentErrorAtom = atom<string | null>(null);
 
 // Payment loading state (for async operations)
 export const paymentLoadingAtom = atom(false);
+
+// ============================================
+// Customer & Balance Management
+// ============================================
+
+// Current customer for order
+export const currentCustomerAtom = atom<Customer | null>(null);
+
+// Customer balances (for current or selected customer)
+export const customerBalancesAtom = atom<CustomerBalance[]>([]);
+
+// Current order payment state
+export const orderPaymentStateAtom = atom<OrderPaymentState | null>(null);
+
+// Derived: Outstanding balance for current order
+export const outstandingBalanceAtom = atom((get) => {
+  const state = get(orderPaymentStateAtom);
+  return state ? state.total - state.paidAmount : 0;
+});
+
+// Derived: Total outstanding across customer's orders
+export const customerTotalOutstandingAtom = atom((get) => {
+  const balances = get(customerBalancesAtom);
+  return balances.reduce((sum, b) => sum + (b.amount - b.paid_amount), 0);
+});
+
+// Derived: Count of pending customer balances
+export const pendingBalanceCountAtom = atom((get) => {
+  const balances = get(customerBalancesAtom);
+  return balances.filter(b => b.status !== 'settled').length;
+});
