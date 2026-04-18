@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { getDB } from '@/lib/db';
 import { Order, OrderItem } from './types';
+import { applyInventoryForOrder } from '../inventory/service';
 
 export const createOrderWithItems = async (orderId: string, items: any[]) => {
   const db = await getDB();
@@ -26,6 +27,8 @@ export const createOrderWithItems = async (orderId: string, items: any[]) => {
        VALUES (?, ?, ?, ?, ?)`,
       [item.id, orderId, item.product_id, item.quantity, item.price]
     );
+    // await decreaseStock(item.product_id, item.quantity);
+    await applyInventoryForOrder(items);
   }
 };
 
