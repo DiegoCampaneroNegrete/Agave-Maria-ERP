@@ -69,3 +69,37 @@ export interface CheckoutState {
   change: number;
   error: string | null;
 }
+
+// Customer & Balance types
+export interface Customer {
+  id: string;
+  name: string;
+  phone?: string;
+  email?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CustomerBalance {
+  id: string;
+  customer_id: string;
+  order_id: string;
+  amount: number;           // Original outstanding balance
+  paid_amount: number;      // Cumulative paid toward balance
+  status: 'pending' | 'partial' | 'settled';
+  created_at: string;
+  updated_at: string;
+}
+
+export interface OrderPaymentState {
+  orderId: string;
+  customerId?: string;
+  subtotal: number;
+  discount: number;
+  tax: number;
+  total: number;
+  paidAmount: number;       // Cumulative paid across all payments
+  outstandingBalance: number; // total - paidAmount
+  paymentMethods: Payment[];
+  status: 'unpaid' | 'partial' | 'paid';
+}

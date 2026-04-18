@@ -28,7 +28,7 @@ export const MethodSelector = ({ selectedMethod, onSelectMethod }: MethodSelecto
               variant={isSelected ? 'primary' : 'secondary'}
               size="sm"
               onClick={() => onSelectMethod(method)}
-              className="flex flex-col items-center gap-1"
+              className="text-white flex flex-col items-center gap-1"
             >
               <span className="text-2xl">{config.icon}</span>
               <span className="text-xs">{config.label}</span>

@@ -21,5 +21,7 @@ export const checkoutStageAtom = atom<
   'summary' | 'method' | 'input' | 'confirm' | 'receipt'
 >('summary');
 
-// Errors
+// Errors and loading
 export const checkoutErrorAtom = atom<string | null>(null);
+export const checkoutLoadingAtom = atom(false);
+

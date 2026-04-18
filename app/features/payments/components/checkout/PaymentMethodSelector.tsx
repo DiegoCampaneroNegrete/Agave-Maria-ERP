@@ -1,6 +1,6 @@
 import { useSetAtom, useAtomValue } from 'jotai';
 import { paymentMethodAtom, checkoutErrorAtom } from '../../atoms';
-import Button from '@/app/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 
 interface Props {
   onMethodSelected: () => void;

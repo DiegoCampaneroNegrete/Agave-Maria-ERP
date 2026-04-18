@@ -15,6 +15,7 @@ export const ProductGrid = ({ products, onAdd }: Props) => {
           key={p.id}
           onClick={() => onAdd(p)}
           className="
+            bg-amber-500
             bg-app-card
             hover:bg-app-hover
             p-4

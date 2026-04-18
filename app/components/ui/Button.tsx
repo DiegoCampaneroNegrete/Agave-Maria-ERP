@@ -22,7 +22,7 @@ export const Button = ({
   const base = `
     bg-amber-950
     rounded-xl font-semibold transition
-    active:scale-95
+    active:scale-95 text-white
     flex items-center justify-center gap-2
   `;
 

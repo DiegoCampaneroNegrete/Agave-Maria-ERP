@@ -6,14 +6,15 @@ import {
   cardAmountAtom,
   changeAtom,
 } from '../../atoms';
-import Button from '@/app/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 
 interface Props {
   onConfirm: () => void;
   onEdit: () => void;
+  isProcessing?: boolean;
 }
 
-export const CheckoutConfirmation = ({ onConfirm, onEdit }: Props) => {
+export const CheckoutConfirmation = ({ onConfirm, onEdit, isProcessing }: Props) => {
   const order = useAtomValue(checkoutOrderAtom);
   const paymentMethod = useAtomValue(paymentMethodAtom);
   const cashReceived = useAtomValue(cashReceivedAtom);
@@ -81,11 +82,16 @@ export const CheckoutConfirmation = ({ onConfirm, onEdit }: Props) => {
 
       {/* Actions */}
       <div className="space-y-2">
-        <Button onClick={onConfirm} className="w-full bg-green-600 hover:bg-green-700">
-          Complete Payment
+        <Button
+          onClick={onConfirm} 
+          disabled={isProcessing}
+          className="w-full bg-green-600 hover:bg-green-700"
+        >
+          {isProcessing ? 'Processing...' : 'Complete Payment'}
         </Button>
         <Button
           onClick={onEdit}
+          disabled={isProcessing}
           className="w-full bg-gray-300 hover:bg-gray-400 text-gray-800"
         >
           Edit

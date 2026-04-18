@@ -6,7 +6,7 @@ import {
   cardAmountAtom,
   changeAtom,
 } from '../../atoms';
-import Button from '@/app/components/ui/Button';
+import { Button } from '@/components/ui/Button';
 
 interface Props {
   onClose: () => void;

@@ -2,7 +2,7 @@
 
 import { useAtomValue } from 'jotai';
 import { checkoutStageAtom, paymentMethodAtom } from '../../atoms';
-import { useCheckoutFlow } from '../../hooks/useCheckout';
+import { useCheckoutFlow, usePaymentProcessing } from '../../hooks/useCheckout';
 import { CheckoutSummary } from './CheckoutSummary';
 import { PaymentMethodSelector } from './PaymentMethodSelector';
 import { CashPaymentInput } from './CashPaymentInput';
@@ -14,7 +14,16 @@ import { CheckoutReceipt } from './CheckoutReceipt';
 export const CheckoutFlow = () => {
   const stage = useAtomValue(checkoutStageAtom);
   const paymentMethod = useAtomValue(paymentMethodAtom);
-  const { goToMethod, goToInput, goToConfirm, goPrev, reset } = useCheckoutFlow();
+  const { goToMethod, goToInput, goToConfirm, goToReceipt, goPrev, reset } = useCheckoutFlow();
+  const { processPayment, loading } = usePaymentProcessing();
+
+  const handleConfirmPayment = async () => {
+    if (!paymentMethod) return;
+    const success = await processPayment(paymentMethod);
+    if (success) {
+      goToReceipt();
+    }
+  };
 
   const handleCloseCheckout = () => {
     reset();
@@ -46,8 +55,9 @@ export const CheckoutFlow = () => {
 
       {stage === 'confirm' && (
         <CheckoutConfirmation
-          onConfirm={goToConfirm}
+          onConfirm={handleConfirmPayment}
           onEdit={goPrev}
+          isProcessing={loading}
         />
       )}
 

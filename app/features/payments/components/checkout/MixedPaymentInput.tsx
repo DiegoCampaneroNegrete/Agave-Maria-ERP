@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { checkoutOrderAtom, cashReceivedAtom, cardAmountAtom } from '../../atoms';
-import Input from '@/app/components/ui/Input';
-import Button from '@/app/components/ui/Button';
+import { Input } from '@/components/ui/Input';
+import { Button } from '@/components/ui/Button';
 
 interface Props {
   onConfirm: () => void;

@@ -7,6 +7,7 @@ import {
   changeAtom,
   checkoutStageAtom,
   checkoutErrorAtom,
+  checkoutLoadingAtom,
 } from '../atoms';
 
 export const useCheckoutCalculations = () => {
@@ -127,8 +128,9 @@ export const useCheckoutFlow = () => {
 };
 
 export const usePaymentProcessing = () => {
-  const [loading, setLoading] = useAtom(atom(false));
-  const [error, setError] = useAtom(checkoutErrorAtom);
+  const [loading, setLoading] = useAtom(checkoutLoadingAtom);
+  const error = useAtomValue(checkoutErrorAtom);
+  const setError = useSetAtom(checkoutErrorAtom);
 
   const processPayment = async (method: 'cash' | 'card' | 'mixed') => {
     setLoading(true);
@@ -148,6 +150,3 @@ export const usePaymentProcessing = () => {
 
   return { processPayment, loading, error };
 };
-
-// Import atom at top if needed
-import { atom } from 'jotai';
